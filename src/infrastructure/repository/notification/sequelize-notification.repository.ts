@@ -3,12 +3,11 @@ import { NotificationRepository } from "../../../domain/notification/notificatio
 import { SequelizeNotification } from "../../model/notification/notification.model";
 
 export class SequelizeRepository implements NotificationRepository {
-    async getNotifications(usr_uuid: string, cus_uuid: string): Promise<NotificationEntity[] | null> {
+    async getNotifications(usr_uuid: string): Promise<NotificationEntity[] | null> {
         try {
             const notifications = await SequelizeNotification.findAll({
                 where: {
-                    usr_uuid: usr_uuid ?? null,
-                    cus_uuid: cus_uuid ?? null
+                    usr_uuid: usr_uuid ?? null
                 }
             });
             if (!notifications) {
@@ -21,12 +20,11 @@ export class SequelizeRepository implements NotificationRepository {
         }
     }
 
-    async findNotificationById(usr_uuid: string, cus_uuid: string, ntf_uuid: string): Promise<NotificationEntity | null> {
+    async findNotificationById(usr_uuid: string, ntf_uuid: string): Promise<NotificationEntity | null> {
         try {
             const notification = await SequelizeNotification.findOne({
                 where: {
                     usr_uuid: usr_uuid ?? null,
-                    cus_uuid: cus_uuid ?? null,
                     ntf_uuid: ntf_uuid ?? null
                 }
             });
@@ -44,7 +42,6 @@ export class SequelizeRepository implements NotificationRepository {
         try {
             const { 
                 usr_uuid, 
-                cus_uuid, 
                 ntf_uuid, 
                 cmp_uuid, 
                 ntf_title, 
@@ -57,7 +54,6 @@ export class SequelizeRepository implements NotificationRepository {
             
             const result = await SequelizeNotification.create({ 
                 usr_uuid, 
-                cus_uuid, 
                 ntf_uuid, 
                 cmp_uuid, 
                 ntf_title, 
@@ -79,7 +75,7 @@ export class SequelizeRepository implements NotificationRepository {
         }
     }
 
-    async updateNotification(usr_uuid: string, cus_uuid: string, ntf_uuid: string, notification: NotificationUpdateData): Promise<NotificationEntity | null> {
+    async updateNotification(usr_uuid: string, ntf_uuid: string, notification: NotificationUpdateData): Promise<NotificationEntity | null> {
         try {
             const [updatedCount, [updatedNotification]] = await SequelizeNotification.update(
                 {
@@ -90,7 +86,7 @@ export class SequelizeRepository implements NotificationRepository {
                     ntf_isread: notification.ntf_isread
                 },
                 {
-                    where: { usr_uuid, cus_uuid, ntf_uuid },
+                    where: { usr_uuid, ntf_uuid },
                     returning: true,
                 }
             );
@@ -106,15 +102,15 @@ export class SequelizeRepository implements NotificationRepository {
         }
     }
 
-    async deleteNotification(usr_uuid: string, cus_uuid: string, ntf_uuid: string): Promise<NotificationEntity | null> {
+    async deleteNotification(usr_uuid: string, ntf_uuid: string): Promise<NotificationEntity | null> {
         try {
-            const notificationToDelete = await this.findNotificationById(usr_uuid, cus_uuid, ntf_uuid);
+            const notificationToDelete = await this.findNotificationById(usr_uuid, ntf_uuid);
             if (!notificationToDelete) {
                 throw new Error(`No se ha encontrado la notificación a eliminar`);
             }
             
             const deletedCount = await SequelizeNotification.destroy({
-                where: { usr_uuid, cus_uuid, ntf_uuid }
+                where: { usr_uuid, ntf_uuid }
             });
             
             if (deletedCount === 0) {

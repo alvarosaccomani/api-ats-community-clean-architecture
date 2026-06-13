@@ -4,7 +4,6 @@ import { NotificationEntity } from "./notification.entity";
 
 export class NotificationValue implements NotificationEntity {
     usr_uuid: string;
-    cus_uuid: string;
     ntf_uuid: string;
     cmp_uuid: string;
     ntf_title: string;
@@ -16,7 +15,6 @@ export class NotificationValue implements NotificationEntity {
     
     constructor({
             usr_uuid,
-            cus_uuid,
             ntf_uuid,
             cmp_uuid,
             ntf_title,
@@ -27,7 +25,6 @@ export class NotificationValue implements NotificationEntity {
             ntf_createdat
         }:{ 
             usr_uuid: string,
-            cus_uuid: string,
             ntf_uuid?: string,
             cmp_uuid: string,
             ntf_title: string,
@@ -38,7 +35,6 @@ export class NotificationValue implements NotificationEntity {
             ntf_createdat?: Date
         }) {
             this.usr_uuid = usr_uuid;
-            this.cus_uuid = cus_uuid;
             this.ntf_uuid = ntf_uuid ?? uuid();
             this.cmp_uuid = cmp_uuid;
             this.ntf_title = ntf_title;

@@ -4,7 +4,6 @@ import { NotificationEntity } from "../../../domain/notification/notification.en
 
 export class SequelizeNotification extends Model<NotificationEntity, Omit<NotificationEntity, 'id'>> {
   declare usr_uuid: string;
-  declare cus_uuid: string;
   declare ntf_uuid: string;
   declare cmp_uuid: string;
   declare ntf_title: string;
@@ -17,10 +16,6 @@ export class SequelizeNotification extends Model<NotificationEntity, Omit<Notifi
 
 SequelizeNotification.init({
   usr_uuid: {
-    type: DataTypes.STRING,
-    primaryKey: true
-  },
-  cus_uuid: {
     type: DataTypes.STRING,
     primaryKey: true
   },

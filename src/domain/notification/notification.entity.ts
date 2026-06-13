@@ -1,6 +1,5 @@
 export interface NotificationEntity {
     usr_uuid: string,
-    cus_uuid: string,
     ntf_uuid: string,
     cmp_uuid: string,
     ntf_title: string,
