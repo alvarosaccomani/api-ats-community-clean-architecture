@@ -17,6 +17,10 @@ class SocketAdapter {
     this.io.emit(eventName, data);
   }
 
+  emitToRoom(room: string, eventName: string, data: any) {
+    this.io.to(room).emit(eventName, data);
+  }
+
 }
 
 export default SocketAdapter;
