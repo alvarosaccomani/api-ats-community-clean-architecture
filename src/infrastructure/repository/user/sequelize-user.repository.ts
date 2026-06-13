@@ -58,11 +58,17 @@ export class SequelizeRepository implements UserRepository {
     }
     async updateUser(usr_uuid: string, user: UserUpdateData): Promise<UserEntity | null> {
         try {
+            let hashedPassword = user.usr_password;
+            if (hashedPassword) {
+                const salt = await bcrypt.genSalt(10);
+                hashedPassword = await bcrypt.hash(hashedPassword, salt);
+            }
+
             const [updatedCount, [updatedUser]] = await SequelizeUser.update(
                 { 
                     usr_name: user.usr_name,
                     usr_surname: user.usr_surname,
-                    usr_password: user.usr_password,
+                    usr_password: hashedPassword,
                     usr_image: user.usr_image,
                     usr_email: user.usr_email,
                     usr_nick: user.usr_nick,
