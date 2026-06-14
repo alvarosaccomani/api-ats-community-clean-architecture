@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  api-ats-market-clean-architecture:
+  api-ats-community-clean-architecture:
     build: .
     ports:
       - "3004:3004"
