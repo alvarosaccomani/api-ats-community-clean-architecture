@@ -6,7 +6,9 @@ export class ClaimValue implements ClaimEntity {
     cmp_uuid: string;
     cla_uuid: string;
     usr_uuid: string;
-    uni_uuid: string;
+    uni_uuid?: string | null;
+    sit_uuid?: string | null;
+    spa_uuid?: string | null;
     cla_title: string;
     cla_description: string;
     cla_type: 'Reclamo' | 'Sugerencia' | 'Propuesta';
@@ -20,6 +22,8 @@ export class ClaimValue implements ClaimEntity {
             cla_uuid,
             usr_uuid,
             uni_uuid,
+            sit_uuid,
+            spa_uuid,
             cla_title,
             cla_description,
             cla_type,
@@ -29,9 +33,11 @@ export class ClaimValue implements ClaimEntity {
             cla_updatedat
         }:{ 
             cmp_uuid: string,
-            cla_uuid: string,
+            cla_uuid?: string,
             usr_uuid: string,
-            uni_uuid: string,
+            uni_uuid?: string | null,
+            sit_uuid?: string | null,
+            spa_uuid?: string | null,
             cla_title: string,
             cla_description: string,
             cla_type: 'Reclamo' | 'Sugerencia' | 'Propuesta',
@@ -41,9 +47,11 @@ export class ClaimValue implements ClaimEntity {
             cla_updatedat?: Date
         }) {
         this.cmp_uuid = cmp_uuid;
-        this.cla_uuid = uuid();
+        this.cla_uuid = cla_uuid ?? uuid();
         this.usr_uuid = usr_uuid;
-        this.uni_uuid = uni_uuid;
+        this.uni_uuid = uni_uuid ?? null;
+        this.sit_uuid = sit_uuid ?? null;
+        this.spa_uuid = spa_uuid ?? null;
         this.cla_title = cla_title;
         this.cla_description = cla_description;
         this.cla_type = cla_type;

@@ -2,7 +2,9 @@ export interface ClaimEntity {
     cmp_uuid: string;
     cla_uuid: string;
     usr_uuid: string;
-    uni_uuid: string;
+    uni_uuid?: string | null;
+    sit_uuid?: string | null;
+    spa_uuid?: string | null;
     cla_title: string;
     cla_description: string;
     cla_type: 'Reclamo' | 'Sugerencia' | 'Propuesta';
@@ -20,8 +22,17 @@ export interface ClaimEntity {
         uni_uuid: string;
         uni_code: string;
         uni_category: string;
-    };
+    } | null;
+    site?: {
+        sit_uuid: string;
+        sit_name: string;
+    } | null;
+    space?: {
+        spa_uuid: string;
+        spa_name: string;
+        spa_type: string;
+    } | null;
 }
 
 //Update
-export type ClaimUpdateData = Pick<ClaimEntity, 'usr_uuid' | 'uni_uuid' | 'cla_title' | 'cla_description' | 'cla_type' | 'cla_status' | 'cla_priority'>;
+export type ClaimUpdateData = Pick<ClaimEntity, 'usr_uuid' | 'uni_uuid' | 'sit_uuid' | 'spa_uuid' | 'cla_title' | 'cla_description' | 'cla_type' | 'cla_status' | 'cla_priority'>;

@@ -25,6 +25,8 @@ export class ClaimUseCase {
                 cla_uuid: claim.cla_uuid,
                 usr_uuid: claim.usr_uuid,
                 uni_uuid: claim.uni_uuid,
+                sit_uuid: claim.sit_uuid,
+                spa_uuid: claim.spa_uuid,
                 cla_title: claim.cla_title,
                 cla_description: claim.cla_description,
                 cla_type: claim.cla_type,
@@ -42,6 +44,15 @@ export class ClaimUseCase {
                     uni_uuid: claim.unit.uni_uuid,
                     uni_code: claim.unit.uni_code,
                     uni_category: claim.unit.uni_category
+                } : undefined,
+                site: claim.site ? {
+                    sit_uuid: claim.site.sit_uuid,
+                    sit_name: claim.site.sit_name
+                } : undefined,
+                space: claim.space ? {
+                    spa_uuid: claim.space.spa_uuid,
+                    spa_name: claim.space.spa_name,
+                    spa_type: claim.space.spa_type
                 } : undefined
             }));
         } catch (error: any) {
@@ -61,6 +72,8 @@ export class ClaimUseCase {
                 cla_uuid: claim.cla_uuid,
                 usr_uuid: claim.usr_uuid,
                 uni_uuid: claim.uni_uuid,
+                sit_uuid: claim.sit_uuid,
+                spa_uuid: claim.spa_uuid,
                 cla_title: claim.cla_title,
                 cla_description: claim.cla_description,
                 cla_type: claim.cla_type,
@@ -78,6 +91,15 @@ export class ClaimUseCase {
                     uni_uuid: claim.unit.uni_uuid,
                     uni_code: claim.unit.uni_code,
                     uni_category: claim.unit.uni_category
+                } : undefined,
+                site: claim.site ? {
+                    sit_uuid: claim.site.sit_uuid,
+                    sit_name: claim.site.sit_name
+                } : undefined,
+                space: claim.space ? {
+                    spa_uuid: claim.space.spa_uuid,
+                    spa_name: claim.space.spa_name,
+                    spa_type: claim.space.spa_type
                 } : undefined
             };
         } catch (error: any) {
@@ -86,9 +108,9 @@ export class ClaimUseCase {
         }
     }
 
-    public async createClaim({ cmp_uuid, cla_uuid, usr_uuid, uni_uuid, cla_title, cla_description, cla_type, cla_status, cla_priority } : { cmp_uuid: string, cla_uuid: string, usr_uuid: string, uni_uuid: string, cla_title: string, cla_description: string, cla_type: 'Reclamo' | 'Sugerencia' | 'Propuesta', cla_status: 'Abierto' | 'En Licitacion' | 'Aprobado' | 'En Obra' | 'FinalizadoAprobado' | 'Rechazado', cla_priority?: 'Baja' | 'Media' | 'Alta' }) {
+    public async createClaim({ cmp_uuid, cla_uuid, usr_uuid, uni_uuid, sit_uuid, spa_uuid, cla_title, cla_description, cla_type, cla_status, cla_priority } : { cmp_uuid: string, cla_uuid?: string, usr_uuid: string, uni_uuid?: string | null, sit_uuid?: string | null, spa_uuid?: string | null, cla_title: string, cla_description: string, cla_type: 'Reclamo' | 'Sugerencia' | 'Propuesta', cla_status: 'Abierto' | 'En Licitacion' | 'Aprobado' | 'En Obra' | 'FinalizadoAprobado' | 'Rechazado', cla_priority?: 'Baja' | 'Media' | 'Alta' }) {
         try {
-            const claimValue = new ClaimValue({ cmp_uuid, cla_uuid, usr_uuid, uni_uuid, cla_title, cla_description, cla_type, cla_status, cla_priority });
+            const claimValue = new ClaimValue({ cmp_uuid, cla_uuid, usr_uuid, uni_uuid, sit_uuid, spa_uuid, cla_title, cla_description, cla_type, cla_status, cla_priority });
             const claimCreated = await this.claimRepository.createClaim(claimValue);
             if (!claimCreated) {
                 throw new Error('No se pudo insertar el reclamo.');
@@ -98,6 +120,8 @@ export class ClaimUseCase {
                 cla_uuid: claimCreated.cla_uuid,
                 usr_uuid: claimCreated.usr_uuid,
                 uni_uuid: claimCreated.uni_uuid,
+                sit_uuid: claimCreated.sit_uuid,
+                spa_uuid: claimCreated.spa_uuid,
                 cla_title: claimCreated.cla_title,
                 cla_description: claimCreated.cla_description,
                 cla_type: claimCreated.cla_type,
@@ -112,9 +136,9 @@ export class ClaimUseCase {
         }
     }
 
-    public async updateClaim(cmp_uuid: string, cla_uuid: string, { usr_uuid, uni_uuid, cla_title, cla_description, cla_type, cla_status, cla_priority } : { usr_uuid: string, uni_uuid: string, cla_title: string, cla_description: string, cla_type: 'Reclamo' | 'Sugerencia' | 'Propuesta', cla_status: 'Abierto' | 'En Licitacion' | 'Aprobado' | 'En Obra' | 'FinalizadoAprobado' | 'Rechazado', cla_priority: 'Baja' | 'Media' | 'Alta' }) {
+    public async updateClaim(cmp_uuid: string, cla_uuid: string, { usr_uuid, uni_uuid, sit_uuid, spa_uuid, cla_title, cla_description, cla_type, cla_status, cla_priority } : { usr_uuid: string, uni_uuid?: string | null, sit_uuid?: string | null, spa_uuid?: string | null, cla_title: string, cla_description: string, cla_type: 'Reclamo' | 'Sugerencia' | 'Propuesta', cla_status: 'Abierto' | 'En Licitacion' | 'Aprobado' | 'En Obra' | 'FinalizadoAprobado' | 'Rechazado', cla_priority: 'Baja' | 'Media' | 'Alta' }) {
         try {
-            const claimUpdated = await this.claimRepository.updateClaim(cmp_uuid, cla_uuid, { usr_uuid, uni_uuid, cla_title, cla_description, cla_type, cla_status, cla_priority });
+            const claimUpdated = await this.claimRepository.updateClaim(cmp_uuid, cla_uuid, { usr_uuid, uni_uuid, sit_uuid, spa_uuid, cla_title, cla_description, cla_type, cla_status, cla_priority });
             if (!claimUpdated) {
                 throw new Error('No se pudo actualizar el reclamo.');
             }
@@ -123,6 +147,8 @@ export class ClaimUseCase {
                 cla_uuid: claimUpdated.cla_uuid,
                 usr_uuid: claimUpdated.usr_uuid,
                 uni_uuid: claimUpdated.uni_uuid,
+                sit_uuid: claimUpdated.sit_uuid,
+                spa_uuid: claimUpdated.spa_uuid,
                 cla_title: claimUpdated.cla_title,
                 cla_description: claimUpdated.cla_description,
                 cla_type: claimUpdated.cla_type,
@@ -148,6 +174,8 @@ export class ClaimUseCase {
                 cla_uuid: claimDeleted.cla_uuid,
                 usr_uuid: claimDeleted.usr_uuid,
                 uni_uuid: claimDeleted.uni_uuid,
+                sit_uuid: claimDeleted.sit_uuid,
+                spa_uuid: claimDeleted.spa_uuid,
                 cla_title: claimDeleted.cla_title,
                 cla_description: claimDeleted.cla_description,
                 cla_type: claimDeleted.cla_type,

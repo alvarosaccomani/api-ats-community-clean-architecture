@@ -88,12 +88,12 @@ export class ClaimController {
 
     public async insertCtrl({ body }: Request, res: Response) {
         try {
-            const { cmp_uuid, usr_uuid, uni_uuid, cla_title, cla_description, cla_type, cla_status } = body;
-            if (!cmp_uuid || !usr_uuid || !uni_uuid || !cla_title || !cla_description || !cla_type || !cla_status) {
+            const { cmp_uuid, usr_uuid, uni_uuid, sit_uuid, spa_uuid, cla_title, cla_description, cla_type, cla_status, cla_priority } = body;
+            if (!cmp_uuid || !usr_uuid || (!uni_uuid && (!sit_uuid || !spa_uuid)) || !cla_title || !cla_description || !cla_type || !cla_status) {
                 return res.status(400).json({
                     success: false,
                     message: 'No se pudo insertar el reclamo.',
-                    error: 'Faltan campos requeridos en el cuerpo.'
+                    error: 'Faltan campos requeridos en el cuerpo. Debe proporcionar una unidad privada (uni_uuid) o bien una sede (sit_uuid) y un espacio (spa_uuid).'
                 });
             }
 
@@ -128,7 +128,17 @@ export class ClaimController {
                     error: 'Debe proporcionar cmp_uuid y cla_uuid.'
                 });
             }
-            const claim = await this.claimUseCase.updateClaim(cmp_uuid, cla_uuid, update);
+            const claim = await this.claimUseCase.updateClaim(cmp_uuid, cla_uuid, {
+                usr_uuid: update.usr_uuid,
+                uni_uuid: update.uni_uuid,
+                sit_uuid: update.sit_uuid,
+                spa_uuid: update.spa_uuid,
+                cla_title: update.cla_title,
+                cla_description: update.cla_description,
+                cla_type: update.cla_type,
+                cla_status: update.cla_status,
+                cla_priority: update.cla_priority
+            });
 
             // Emitir evento por WebSockets
             this.socketAdapter.emitEvent('claim:updated', claim);
