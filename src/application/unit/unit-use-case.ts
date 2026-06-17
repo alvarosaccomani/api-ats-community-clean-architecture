@@ -31,6 +31,10 @@ export class UnitUseCase {
                 uni_locationdetails: unit.uni_locationdetails,
                 uni_metadata: unit.uni_metadata,
                 uni_istransferable: unit.uni_istransferable,
+                sit_uuid: unit.sit_uuid,
+                spa_uuid: unit.spa_uuid,
+                site: (unit as any).site || null,
+                space: (unit as any).space || null,
                 uni_createdat: TimezoneConverter.toIsoStringInTimezone(unit.uni_createdat, 'America/Buenos_Aires'),
                 uni_updatedat: TimezoneConverter.toIsoStringInTimezone(unit.uni_updatedat, 'America/Buenos_Aires')
             }));
@@ -57,6 +61,10 @@ export class UnitUseCase {
                 uni_locationdetails: unit.uni_locationdetails,
                 uni_metadata: unit.uni_metadata,
                 uni_istransferable: unit.uni_istransferable,
+                sit_uuid: unit.sit_uuid,
+                spa_uuid: unit.spa_uuid,
+                site: (unit as any).site || null,
+                space: (unit as any).space || null,
                 uni_createdat: TimezoneConverter.toIsoStringInTimezone(unit.uni_createdat, 'America/Buenos_Aires'),
                 uni_updatedat: TimezoneConverter.toIsoStringInTimezone(unit.uni_updatedat, 'America/Buenos_Aires')
             };
@@ -84,6 +92,8 @@ export class UnitUseCase {
                 uni_locationdetails: unitCreated.uni_locationdetails,
                 uni_metadata: unitCreated.uni_metadata,
                 uni_istransferable: unitCreated.uni_istransferable,
+                sit_uuid: unitCreated.sit_uuid,
+                spa_uuid: unitCreated.spa_uuid,
                 uni_createdat: TimezoneConverter.toIsoStringInTimezone(unitCreated.uni_createdat, 'America/Buenos_Aires'),
                 uni_updatedat: TimezoneConverter.toIsoStringInTimezone(unitCreated.uni_updatedat, 'America/Buenos_Aires')
             };
@@ -110,6 +120,8 @@ export class UnitUseCase {
                 uni_locationdetails: unitUpdated.uni_locationdetails,
                 uni_metadata: unitUpdated.uni_metadata,
                 uni_istransferable: unitUpdated.uni_istransferable,
+                sit_uuid: unitUpdated.sit_uuid,
+                spa_uuid: unitUpdated.spa_uuid,
                 uni_createdat: TimezoneConverter.toIsoStringInTimezone(unitUpdated.uni_createdat, 'America/Buenos_Aires'),
                 uni_updatedat: TimezoneConverter.toIsoStringInTimezone(unitUpdated.uni_updatedat, 'America/Buenos_Aires')
             };
@@ -136,6 +148,8 @@ export class UnitUseCase {
                 uni_locationdetails: unitDeleted.uni_locationdetails,
                 uni_metadata: unitDeleted.uni_metadata,
                 uni_istransferable: unitDeleted.uni_istransferable,
+                sit_uuid: unitDeleted.sit_uuid,
+                spa_uuid: unitDeleted.spa_uuid,
                 uni_createdat: TimezoneConverter.toIsoStringInTimezone(unitDeleted.uni_createdat, 'America/Buenos_Aires'),
                 uni_updatedat: TimezoneConverter.toIsoStringInTimezone(unitDeleted.uni_updatedat, 'America/Buenos_Aires')
             };

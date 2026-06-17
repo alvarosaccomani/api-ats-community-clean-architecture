@@ -1,6 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../db/sequelize';
 import { UnitEntity } from "../../../domain/unit/unit.entity";
+import { SequelizeSite } from '../site/site.model';
+import { SequelizeSpace } from '../space/space.model';
 
 export class SequelizeUnit extends Model<UnitEntity, Omit<UnitEntity, 'id'>> {
   declare cmp_uuid: string;
@@ -13,6 +15,8 @@ export class SequelizeUnit extends Model<UnitEntity, Omit<UnitEntity, 'id'>> {
   declare uni_locationdetails: string;
   declare uni_metadata?: Record<string, any>;
   declare uni_istransferable: boolean;
+  declare sit_uuid: string | null;
+  declare spa_uuid: string | null;
   declare uni_createdat: Date;
   declare uni_updatedat: Date;
 }
@@ -31,16 +35,16 @@ SequelizeUnit.init({
     allowNull: false
   },
   uni_category: {
-    type: DataTypes.STRING, // 'Residencial' | 'Comercial' | 'Socio Pleno' | 'Socio Deportivo' | 'Espacio Comun' | 'Parcela'
+    type: DataTypes.STRING,
     allowNull: false
   },
   uni_status: {
-    type: DataTypes.STRING, // 'Activo' | 'Inactivo' | 'En_Mantenimiento'
+    type: DataTypes.STRING,
     allowNull: false,
     defaultValue: 'Activo'
   },
   uni_financialcoefficient: {
-    type: DataTypes.DECIMAL(5, 4), // Ej: 0.1234 (coeficiente de copropiedad)
+    type: DataTypes.DECIMAL(5, 4),
     allowNull: false,
     defaultValue: 1.0000
   },
@@ -62,6 +66,14 @@ SequelizeUnit.init({
     allowNull: false,
     defaultValue: true
   },
+  sit_uuid: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  spa_uuid: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   uni_createdat: {
     type: DataTypes.DATE,
     allowNull: true
@@ -76,6 +88,16 @@ SequelizeUnit.init({
   createdAt: 'uni_createdat',
   updatedAt: 'uni_updatedat',
   tableName: 'uni_units'
+});
+
+SequelizeUnit.belongsTo(SequelizeSite, {
+  as: 'site',
+  foreignKey: 'sit_uuid'
+});
+
+SequelizeUnit.belongsTo(SequelizeSpace, {
+  as: 'space',
+  foreignKey: 'spa_uuid'
 });
 
 // Sincronizar (solo en desarrollo)

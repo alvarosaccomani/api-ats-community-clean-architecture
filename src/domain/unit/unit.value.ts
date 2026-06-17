@@ -13,6 +13,8 @@ export class UnitValue implements UnitEntity {
     uni_locationdetails: string;
     uni_metadata?: Record<string, any>;
     uni_istransferable: boolean;
+    sit_uuid?: string | null;
+    spa_uuid?: string | null;
     uni_createdat: Date;
     uni_updatedat: Date
     
@@ -27,6 +29,8 @@ export class UnitValue implements UnitEntity {
             uni_locationdetails,
             uni_metadata,
             uni_istransferable,
+            sit_uuid,
+            spa_uuid,
             uni_createdat,
             uni_updatedat
         }:{ 
@@ -34,17 +38,19 @@ export class UnitValue implements UnitEntity {
             uni_uuid: string,
             uni_code: string,
             uni_category: 'Residencial' | 'Comercial' | 'Socio Pleno' | 'Socio Deportivo' | 'Espacio Comun' | 'Parcela',
-            uni_status: 'Activo' | 'Inactivo',
+            uni_status: 'Activo' | 'Inactivo' | 'En_Mantenimiento',
             uni_financialcoefficient: number,
             uni_baseamountcustom: number,
             uni_locationdetails: string,
             uni_metadata: Record<string, any>,
             uni_istransferable: boolean,
+            sit_uuid?: string | null,
+            spa_uuid?: string | null,
             uni_createdat?: Date,
             uni_updatedat?: Date
         }) {
         this.cmp_uuid = cmp_uuid;
-        this.uni_uuid = uuid();
+        this.uni_uuid = uni_uuid || uuid();
         this.uni_code = uni_code;
         this.uni_category = uni_category;
         this.uni_status = uni_status;
@@ -53,6 +59,8 @@ export class UnitValue implements UnitEntity {
         this.uni_locationdetails = uni_locationdetails;
         this.uni_metadata = uni_metadata;
         this.uni_istransferable = uni_istransferable;
+        this.sit_uuid = sit_uuid ?? null;
+        this.spa_uuid = spa_uuid ?? null;
         this.uni_createdat = uni_createdat ?? moment().toDate();
         this.uni_updatedat = uni_updatedat ?? moment().toDate();
     }

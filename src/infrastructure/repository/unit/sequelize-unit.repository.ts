@@ -1,6 +1,8 @@
 import { UnitEntity, UnitUpdateData } from "../../../domain/unit/unit.entity";
 import { UnitRepository } from "../../../domain/unit/unit.repository";
 import { SequelizeUnit } from "../../model/unit/unit.model";
+import { SequelizeSite } from "../../model/site/site.model";
+import { SequelizeSpace } from "../../model/space/space.model";
 
 export class SequelizeRepository implements UnitRepository {
     async getUnits(cmp_uuid: string): Promise<UnitEntity[] | null> {
@@ -8,7 +10,19 @@ export class SequelizeRepository implements UnitRepository {
             const units = await SequelizeUnit.findAll({
                 where: {
                     cmp_uuid
-                }
+                },
+                include: [
+                    {
+                        model: SequelizeSite,
+                        as: 'site',
+                        attributes: ['sit_uuid', 'sit_name']
+                    },
+                    {
+                        model: SequelizeSpace,
+                        as: 'space',
+                        attributes: ['spa_uuid', 'spa_name', 'spa_type']
+                    }
+                ]
             });
             return units;
         } catch (error: any) {
@@ -23,7 +37,19 @@ export class SequelizeRepository implements UnitRepository {
                 where: {
                     cmp_uuid,
                     uni_uuid
-                }
+                },
+                include: [
+                    {
+                        model: SequelizeSite,
+                        as: 'site',
+                        attributes: ['sit_uuid', 'sit_name']
+                    },
+                    {
+                        model: SequelizeSpace,
+                        as: 'space',
+                        attributes: ['spa_uuid', 'spa_name', 'spa_type']
+                    }
+                ]
             });
             return unit ? (unit.dataValues as UnitEntity) : null;
         } catch (error: any) {
@@ -34,7 +60,7 @@ export class SequelizeRepository implements UnitRepository {
 
     async createUnit(unit: UnitEntity): Promise<UnitEntity | null> {
         try {
-            const { cmp_uuid, uni_uuid, uni_code, uni_category, uni_status, uni_financialcoefficient, uni_baseamountcustom, uni_locationdetails, uni_metadata, uni_istransferable, uni_createdat, uni_updatedat } = unit;
+            const { cmp_uuid, uni_uuid, uni_code, uni_category, uni_status, uni_financialcoefficient, uni_baseamountcustom, uni_locationdetails, uni_metadata, uni_istransferable, sit_uuid, spa_uuid, uni_createdat, uni_updatedat } = unit;
             const result = await SequelizeUnit.create({
                 cmp_uuid,
                 uni_uuid,
@@ -46,6 +72,8 @@ export class SequelizeRepository implements UnitRepository {
                 uni_locationdetails,
                 uni_metadata,
                 uni_istransferable,
+                sit_uuid,
+                spa_uuid,
                 uni_createdat,
                 uni_updatedat
             });
@@ -70,7 +98,9 @@ export class SequelizeRepository implements UnitRepository {
                     uni_baseamountcustom: unit.uni_baseamountcustom,
                     uni_locationdetails: unit.uni_locationdetails,
                     uni_metadata: unit.uni_metadata,
-                    uni_istransferable: unit.uni_istransferable
+                    uni_istransferable: unit.uni_istransferable,
+                    sit_uuid: unit.sit_uuid,
+                    spa_uuid: unit.spa_uuid
                 },
                 {
                     where: {
@@ -118,7 +148,19 @@ export class SequelizeRepository implements UnitRepository {
                 where: {
                     cmp_uuid,
                     uni_code
-                }
+                },
+                include: [
+                    {
+                        model: SequelizeSite,
+                        as: 'site',
+                        attributes: ['sit_uuid', 'sit_name']
+                    },
+                    {
+                        model: SequelizeSpace,
+                        as: 'space',
+                        attributes: ['spa_uuid', 'spa_name', 'spa_type']
+                    }
+                ]
             });
             return unit ? (unit.dataValues as UnitEntity) : null;
         } catch (error: any) {
